@@ -1,0 +1,24 @@
+{
+  "name": "solid",
+  "version": "1.0.0",
+  "description": "app that uses solid concepts",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start:dev": "tsx watch src/server.ts",
+    "build": "tsup src --out-dir build",
+    "start": "node build/server.js"
+  },
+  "author": "joaovictorssz",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^20.10.5",
+    "tsc": "^2.0.4",
+    "tsup": "^8.0.1",
+    "tsx": "^4.7.0",
+    "typescript": "^5.3.3"
+  },
+  "dependencies": {
+    "fastify": "^4.25.1"
+  }
+}
