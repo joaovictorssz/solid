@@ -14,17 +14,12 @@ export async function createUser(request: FastifyRequest, reply: FastifyReply){
     const { email, name, password } = RequestBodySchema.parse(request.body)
 
     try{
-
         await createUserService({email, name, password})
-
     }
     catch(err){
-
         return reply.status(409).send()
-
     }
 
-    
     return reply.status(201).send()
 
 }
