@@ -1,0 +1,33 @@
+import { prisma } from "@/lib/prisma"
+import { hash } from "bcryptjs"
+
+interface CreateUserServiceParams{
+    name: string,
+    email: string,
+    password: string
+}
+
+export async function createUserService({email, name, password}:CreateUserServiceParams){
+
+
+    const password_hash = await hash(password, 6)
+
+    // prisma verifies if the given email already exists in database
+    const userWithSameEmail = await prisma.user.findUnique({
+        where:{
+            email
+        }
+    })
+
+    if(userWithSameEmail){
+        throw new Error("E-mail already exists.")
+    }
+
+    await prisma.user.create({
+        data: {
+            email,
+            name,
+            password_hash
+        }
+    })
+}
