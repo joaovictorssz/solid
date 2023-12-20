@@ -5,10 +5,10 @@ const envSchema = z.object({
     PORT: z.coerce.number().default(3333) // o coerce() converte para number, caso o valor seja uma string
 })
 
-const _env= envSchema.safeParse(process.env) //o safeParse compara o schema pre-definido com algum desejado, e confirma se a estrutura está igual
+const _env = envSchema.safeParse(process.env) //o safeParse compara o schema pre-definido com algum desejado, e confirma se a estrutura está igual
 
 
-if(_env.success === false){
+if (_env.success === false) {
     console.error("Invalid Environment Variables", _env.error.format())
     // Caso exista algum erro, ele não deixa a apllicação rodar
     throw new Error('Invalid Environment Variables.')
