@@ -1,9 +1,9 @@
 import { fastify } from 'fastify'
-import { routes } from './http/routes/routes';
+import { userRoutes } from './http/routes/user';
 
 const app = fastify()
 
-app.register(routes)
+app.register(userRoutes)
 
 
 export default app; 

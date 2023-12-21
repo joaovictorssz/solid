@@ -1,0 +1,23 @@
+import { PrismaUserRepository } from "@/repositories/prisma-user-repository";
+import { hash } from "bcryptjs";
+
+interface RequestBodyInterface {
+    name: string,
+    email: string,
+    password: string
+}
+
+export class CreateUserServices {
+    constructor(private userRepository: PrismaUserRepository) { }
+
+    async create({ email, name, password }: RequestBodyInterface) {
+
+        const password_hash = await hash(password, 6)
+
+        const user = await this.userRepository.create({ email, name, password_hash })
+
+        return user
+
+    }
+
+}
