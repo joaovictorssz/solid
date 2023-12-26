@@ -1,4 +1,5 @@
 import { PrismaUserRepository } from "@/repositories/prisma-user-repository";
+import { EmailAlreadyExistsError } from "@/services/user/errors/email-already-exists-error";
 import { CreateUserServices } from "@/services/user/register-service";
 import { FastifyReply, FastifyRequest } from "fastify";
 import { z } from "zod";
@@ -22,7 +23,10 @@ export async function createUserController(request: FastifyRequest, reply: Fasti
         reply.status(201).send(created_user)
 
     } catch (error) {
-        reply.status(409).send(error)
+        if(error instanceof EmailAlreadyExistsError){
+            return reply.status(409).send(error)
+        }
+        return reply.status(500).send() //TODO fix-laters
     }
 
 

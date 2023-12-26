@@ -1,5 +1,6 @@
 import { PrismaUserRepository } from "@/repositories/prisma-user-repository";
 import { hash } from "bcryptjs";
+import { EmailAlreadyExistsError } from "./errors/email-already-exists-error";
 
 interface RequestBodyInterface {
     name: string,
@@ -13,6 +14,12 @@ export class CreateUserServices {
     async create({ email, name, password }: RequestBodyInterface) {
 
         const password_hash = await hash(password, 6)
+
+        const emailAlreadyExists = await this.userRepository.verifyExistantEmail(email)
+
+        if(emailAlreadyExists){
+            throw new EmailAlreadyExistsError()
+        }
 
         const user = await this.userRepository.create({ email, name, password_hash })
 
