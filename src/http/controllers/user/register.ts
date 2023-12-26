@@ -23,7 +23,7 @@ export async function createUserController(request: FastifyRequest, reply: Fasti
         reply.status(201).send(created_user)
 
     } catch (error) {
-        if(error instanceof EmailAlreadyExistsError){
+        if (error instanceof EmailAlreadyExistsError) {
             return reply.status(409).send(error)
         }
         return reply.status(500).send() //TODO fix-laters

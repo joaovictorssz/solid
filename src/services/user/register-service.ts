@@ -17,7 +17,7 @@ export class CreateUserServices {
 
         const emailAlreadyExists = await this.userRepository.verifyExistantEmail(email)
 
-        if(emailAlreadyExists){
+        if (emailAlreadyExists) {
             throw new EmailAlreadyExistsError()
         }
 

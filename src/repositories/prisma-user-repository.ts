@@ -4,10 +4,10 @@ import { PrismaUserRepositoryInterface } from "./interfaces/prisma-user-reposito
 
 export class PrismaUserRepository implements PrismaUserRepositoryInterface {
 
-    async verifyExistantEmail(email: string){
+    async verifyExistantEmail(email: string) {
 
         const emailAlreadyExists = await prisma.user.findUnique({
-            where:{
+            where: {
                 email
             }
         })
@@ -18,7 +18,7 @@ export class PrismaUserRepository implements PrismaUserRepositoryInterface {
 
     async create(data: Prisma.UserCreateInput) {
 
-        const user = await prisma.user.create({ 
+        const user = await prisma.user.create({
             data
         })
         return user
