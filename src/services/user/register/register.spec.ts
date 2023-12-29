@@ -1,23 +1,29 @@
-import { describe, expect, it } from "vitest";
+import { beforeEach, describe, expect, it } from "vitest";
 import { CreateUserServices } from "./register-service";
 import { InMemoryUserRegisterRepository } from "@/repositories/in-memoryuser-registration";
 import { compare } from "bcryptjs";
 import { EmailAlreadyExistsError } from "../errors/email-already-exists-error";
 
 
+let usersRepository: InMemoryUserRegisterRepository
+let sut: CreateUserServices
+
 describe("Registration test suits", ()=>{
+
+    beforeEach(() => {
+        usersRepository = new InMemoryUserRegisterRepository()
+        sut = new CreateUserServices(usersRepository)
+    })
 
     const userFake = {
         name: "John Doe",
         email: "johndoe@example.com",
         password: "123456"
     }
-   
     
     it("should hash user password upon registration", async ()=>{
         
-        const userService = new CreateUserServices(new InMemoryUserRegisterRepository())
-        const {user} = await userService.create(userFake)
+       const { user } = await sut.create(userFake)
 
         const isPasswordHashed  = await compare(userFake.password, user.password_hash)
 
@@ -27,12 +33,12 @@ describe("Registration test suits", ()=>{
 
     it("should not be able to register user with same email twice", async () => {
         
-        const userService = new CreateUserServices(new InMemoryUserRegisterRepository())
-        await userService.create(userFake)
+        await sut.create(userFake)
+
 
         await expect( async ()=>{
             
-            await userService.create(userFake)
+            await sut.create(userFake)
         
         }).rejects.toBeInstanceOf(EmailAlreadyExistsError)
         
@@ -40,9 +46,8 @@ describe("Registration test suits", ()=>{
     })
 
     it("should be able to register a new user", async () => {
-        const userService = new CreateUserServices(new InMemoryUserRegisterRepository())
 
-        const { user } = await userService.create(userFake)
+        const { user } = await sut.create(userFake)
 
         expect(user.id).toStrictEqual(expect.any(String))
     })

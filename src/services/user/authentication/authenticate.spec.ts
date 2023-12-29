@@ -1,17 +1,24 @@
-import { describe, it } from "vitest";
+import { beforeEach, describe, it } from "vitest";
 import { AuthenticationService } from "./authentication-service";
 import { InMemoryUserRegisterRepository } from "@/repositories/in-memoryuser-registration";
 import { hash } from "bcryptjs";
 import { expect } from "vitest";
 import { InvalidCredentialsError } from "../errors/invalid-credentia-error";
 
+
+let usersRepository: InMemoryUserRegisterRepository
+let sut: AuthenticationService
+
 describe("Authentication Use Case", () => {
 
-    it('should be able to authenticate', async () => {
-        const inMemoryRepository = new InMemoryUserRegisterRepository()
-        const sut = new AuthenticationService(inMemoryRepository)
+    beforeEach(() => {
+        usersRepository = new InMemoryUserRegisterRepository()
+        sut = new AuthenticationService(usersRepository)
+    })
 
-        await inMemoryRepository.create({
+    it('should be able to authenticate', async () => {
+
+        await usersRepository.create({
             email: "johndoe@example.com",
             name: "John Doe",
             password_hash: await hash("123456", 6)
@@ -27,8 +34,6 @@ describe("Authentication Use Case", () => {
     })
 
     it('should not be able to authenticate with incorrect email', async () => {
-        const sut = new AuthenticationService(new InMemoryUserRegisterRepository())
-
 
         await expect(async () => {
             await sut.authenticate({ email: "johndoe@example.com", password: "123456" })
@@ -38,10 +43,8 @@ describe("Authentication Use Case", () => {
     })
 
     it('should not be able to authenticate with incorrect password', async () => {
-        const inMemoryRepository = new InMemoryUserRegisterRepository()
-        const sut = new AuthenticationService(inMemoryRepository)
 
-        await inMemoryRepository.create({
+        await usersRepository.create({
             email: "johndoe@example.com",
             name: "John Doe",
             password_hash: await hash("123456", 6)
