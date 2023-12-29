@@ -5,6 +5,16 @@ export class InMemoryUserRegisterRepository implements PrismaUserRepository {
 
     public items: User[] = []
 
+    async getUserProfile(id: string): Promise<User | null> {
+        const user = this.items.find((item)=> item.id === id)
+
+        if(!user){
+            return null
+        }
+        
+        return user
+    }
+
     async verifyExistantEmail(email: string): Promise<User | null> {
         const user = this.items.find(item => item.email === email)
 

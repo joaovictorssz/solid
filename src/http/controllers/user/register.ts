@@ -17,11 +17,12 @@ export async function createUserController(request: FastifyRequest, reply: Fasti
     try {
         const userServices = makeRegisterService()
         const created_user = await userServices.create({ email, name, password })
-        reply.status(201).send(created_user)
+        return reply.status(201).send(created_user)
 
     } catch (error) {
+ 
         if (error instanceof EmailAlreadyExistsError) {
-            return reply.status(409).send(error)
+            return reply.status(409).send({message: error.message})
         }
         return reply.status(500).send() //TODO fix-laters
     }

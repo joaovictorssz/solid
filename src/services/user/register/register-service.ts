@@ -21,7 +21,8 @@ export class CreateUserServices {
         const password_hash = await hash(password, 6)
 
         const emailAlreadyExists = await this.userRepository.verifyExistantEmail(email)
-
+     
+     
         if (emailAlreadyExists) {
             throw new EmailAlreadyExistsError()
         }
