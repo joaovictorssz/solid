@@ -1,4 +1,4 @@
-import { InMemoryUserRegisterRepository } from "@/repositories/in-memoryuser-registration";
+import { InMemoryUserRegisterRepository } from "@/repositories/in-memory-user-registration";
 import { beforeEach, describe, expect, it } from "vitest";
 import { GetUserProfileService } from "./get-profile-service";
 import { ResourceNotFoundError } from "../errors/resource-not-found-error";
