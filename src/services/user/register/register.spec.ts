@@ -1,9 +1,8 @@
 import { describe, expect, it } from "vitest";
 import { CreateUserServices } from "./register-service";
 import { InMemoryUserRegisterRepository } from "@/repositories/in-memoryuser-registration";
-import { User } from "@prisma/client";
 import { compare } from "bcryptjs";
-import { EmailAlreadyExistsError } from "./errors/email-already-exists-error";
+import { EmailAlreadyExistsError } from "../errors/email-already-exists-error";
 
 
 describe("Registration test suits", ()=>{

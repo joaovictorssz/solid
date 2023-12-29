@@ -1,6 +1,6 @@
 import { PrismaUserRepository } from "@/repositories/prisma-user-repository";
 import { EmailAlreadyExistsError } from "@/services/user/errors/email-already-exists-error";
-import { CreateUserServices } from "@/services/user/register-service";
+import { CreateUserServices } from "@/services/user/register/register-service";
 import { FastifyReply, FastifyRequest } from "fastify";
 import { z } from "zod";
 
