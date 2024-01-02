@@ -3,6 +3,8 @@ import { CheckInService } from "./check-in-service";
 import { afterEach,describe, beforeEach, expect, it, vi } from "vitest";
 import { InMemoryGymRepository } from "@/repositories/in-memory/in-memory-gym-repository";
 import { Decimal } from "@prisma/client/runtime/library";
+import { MaxDistanceError } from "../errors/max-distance-error";
+import { MaxNumberOfCheckInsError } from "../errors/max-number-of-check-ins";
 
 
 
@@ -19,11 +21,11 @@ describe('Check In Service', () => {
 
         vi.useFakeTimers()
 
-        gymRepository.gyms.push({
+        gymRepository.create({
             description: '',
             id: 'gym-1',
-            latitude: new Decimal(123),
-            longitude: new Decimal(123),
+            latitude: new Decimal(-2.924596),
+            longitude: new Decimal(-59.9880413),
             phone: '',
             title: 'Gym'
         })
@@ -38,8 +40,8 @@ describe('Check In Service', () => {
         const {checkIn} = await sut.create({
             gymId: 'gym-1',
             userId: 'gym-1',
-            userLatitude: 123,
-            userLongitude:123
+            userLatitude: -2.924596,           
+            userLongitude:-59.9880413
         })
 
         expect(checkIn.id).toEqual(expect.any(String))
@@ -52,8 +54,8 @@ describe('Check In Service', () => {
         await sut.create({
             gymId: 'gym-1',
             userId: 'user-1',
-            userLatitude: 123,
-            userLongitude:123
+            userLatitude: -2.924596,
+            userLongitude:-59.9880413
         })
 
 
@@ -61,10 +63,10 @@ describe('Check In Service', () => {
             await sut.create({
                 gymId: 'gym-1',
                 userId: 'user-1',
-                userLatitude: 123,
-                userLongitude:123
+                userLatitude: -2.924596,
+                userLongitude:-59.9880413
             })
-        }).rejects.toBeInstanceOf(Error)
+        }).rejects.toBeInstanceOf(MaxNumberOfCheckInsError)
         
 
     })
@@ -75,8 +77,8 @@ describe('Check In Service', () => {
         await sut.create({
             gymId: 'gym-1',
             userId: 'user-1',
-            userLatitude: 123,
-            userLongitude:123
+            userLatitude: -2.924596,
+            userLongitude:-59.9880413
         })
 
         vi.setSystemTime(new Date(2023, 0, 21, 8, 0, 0))
@@ -84,11 +86,30 @@ describe('Check In Service', () => {
         const { checkIn } = await sut.create({
             gymId: 'gym-1',
             userId: 'user-1',
-            userLatitude: 123,
-            userLongitude:123
+            userLatitude: -2.924596,
+            userLongitude:-59.9880413
         })
 
         expect(checkIn.id).toEqual(expect.any(String))
+    })
+    it('should not be able to chek in distant gyms', async () => {
+        gymRepository.create({
+            description: '',
+            id: 'gym-2',
+            latitude: new Decimal(-3.0254215),
+            longitude: new Decimal(-60.0606504),
+            phone: '',
+            title: 'Gym'
+        })
+
+        await expect(async ()=>{
+            await sut.create({
+                gymId: 'gym-2',
+                userId: 'user-1',
+                userLatitude: -2.924596,
+                userLongitude:-59.98804139
+            })
+        }).rejects.toBeInstanceOf(MaxDistanceError)
     })
 
 })

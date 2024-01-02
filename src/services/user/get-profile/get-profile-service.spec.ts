@@ -1,7 +1,7 @@
 import { InMemoryUserRegisterRepository } from "@/repositories/in-memory/in-memory-user-registration";
 import { beforeEach, describe, expect, it } from "vitest";
 import { GetUserProfileService } from "./get-profile-service";
-import { ResourceNotFoundError } from "../errors/resource-not-found-error";
+import { ResourceNotFoundError } from "../../errors/resource-not-found-error";
 
 let userRepository : InMemoryUserRegisterRepository
 let sut : GetUserProfileService

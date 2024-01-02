@@ -1,6 +1,6 @@
 import { PrismaUserRepository } from "@/repositories/prisma-user-repository";
 import { User } from "@prisma/client";
-import { ResourceNotFoundError } from "../errors/resource-not-found-error";
+import { ResourceNotFoundError } from "../../errors/resource-not-found-error";
 
 export class GetUserProfileService {
     constructor( private userRepository: PrismaUserRepository){}

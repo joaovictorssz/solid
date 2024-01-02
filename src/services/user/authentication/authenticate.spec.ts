@@ -3,7 +3,7 @@ import { AuthenticationService } from "./authentication-service";
 import { InMemoryUserRegisterRepository } from "@/repositories/in-memory/in-memory-user-registration";
 import { hash } from "bcryptjs";
 import { expect } from "vitest";
-import { InvalidCredentialsError } from "../errors/invalid-credentia-error";
+import { InvalidCredentialsError } from "../../errors/invalid-credentia-error";
 
 
 let usersRepository: InMemoryUserRegisterRepository

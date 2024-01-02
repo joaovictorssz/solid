@@ -30,6 +30,7 @@ export class InMemoryCheckInRepository implements CheckInRepositoryInterface {
     }
     async create(data: Prisma.CheckInUncheckedCreateInput) {
 
+        
 
         const checkInAtSameDay = await this.findByUserIdOnDay(data.userId, new Date())
         

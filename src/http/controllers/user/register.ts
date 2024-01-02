@@ -1,5 +1,5 @@
 import { makeRegisterService } from "@/services/factories/make-register-service";
-import { EmailAlreadyExistsError } from "@/services/user/errors/email-already-exists-error";
+import { EmailAlreadyExistsError } from "@/services/errors/email-already-exists-error";
 import { FastifyReply, FastifyRequest } from "fastify";
 import { z } from "zod";
 

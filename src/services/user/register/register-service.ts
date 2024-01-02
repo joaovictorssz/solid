@@ -1,6 +1,6 @@
 import { PrismaUserRepository } from "@/repositories/prisma-user-repository";
 import { hash } from "bcryptjs";
-import { EmailAlreadyExistsError } from "../errors/email-already-exists-error";
+import { EmailAlreadyExistsError } from "../../errors/email-already-exists-error";
 import { User } from "@prisma/client";
 
 interface RequestBodyInterface {
