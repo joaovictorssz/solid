@@ -35,6 +35,9 @@ export class InMemoryCheckInRepository implements CheckInRepositoryInterface {
         return checkIns.slice((page-1)*20, page*20)
     }
 
+    async getUserMetrics(userId: string): Promise<number> {
+        return this.checkIns.filter((checkIn)=>checkIn.userId === userId).length
+    }
     async create(data: Prisma.CheckInUncheckedCreateInput) {
 
         

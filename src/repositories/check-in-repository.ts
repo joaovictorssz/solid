@@ -19,6 +19,13 @@ export class CheckInRepository implements CheckInRepositoryInterface{
         
     }
 
+    async getUserMetrics(userId: string): Promise<number> {
+        return (await prisma.checkIn.findMany({
+            where:{
+                userId
+            }
+        })).length
+    }
    
     async create(data: Prisma.CheckInUncheckedCreateInput): Promise<CheckIn | null>{
 
