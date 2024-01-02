@@ -5,7 +5,7 @@ Rocketseat Ignite Course: 3rd application that uses SOLID architecture.
 
 - [x] Deve ser possível se cadastrar;
 - [x] Deve ser possível se autenticar;
-- [ ] Deve ser possível obter o perfil de um usuário logado;
+- [x] Deve ser possível obter o perfil de um usuário logado;
 - [ ] Deve ser possível obter o número de check-ins realizados pelo usuário logado;
 - [ ] Deve ser possível o usuário obter seu histórico de check-ins;
 - [ ] Deve ser possível o usuário buscar academias próximas;
