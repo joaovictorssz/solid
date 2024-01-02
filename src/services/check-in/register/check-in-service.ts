@@ -1,10 +1,10 @@
 import { CheckInRepository } from "@/repositories/check-in-repository";
 import { GymRepository } from "@/repositories/gym-repository";
 import { CheckIn } from "@prisma/client";
-import { ResourceNotFoundError } from "../errors/resource-not-found-error";
+import { ResourceNotFoundError } from "../../errors/resource-not-found-error";
 import { getDistanceBetweenCoordinates } from "@/utils/get-distance-between-coordinates";
-import { MaxNumberOfCheckInsError } from "../errors/max-number-of-check-ins";
-import { MaxDistanceError } from "../errors/max-distance-error";
+import { MaxNumberOfCheckInsError } from "../../errors/max-number-of-check-ins";
+import { MaxDistanceError } from "../../errors/max-distance-error";
 
 interface CheckInServiceRequestBody{
     gymId: string,

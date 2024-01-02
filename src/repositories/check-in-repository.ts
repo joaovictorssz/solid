@@ -1,15 +1,25 @@
 import { CheckIn, Prisma } from "@prisma/client";
 import { CheckInRepositoryInterface } from "./interfaces/check-in-repository";
 import { prisma } from "@/lib/prisma";
-import dayjs from "dayjs";
 
 export class CheckInRepository implements CheckInRepositoryInterface{
+    async findManyByUserId(userId: string, page: number): Promise<CheckIn[]> {
+        const checkIns = await prisma.checkIn.findMany({
+            where: {
+                userId
+            }
+        })
+
+        return checkIns.slice((page - 1)*20, page*20)
+    }
 
     async findByUserIdOnDay(_userId: string, _date: Date): Promise<CheckIn | null> {
 
         return null
         
     }
+
+   
     async create(data: Prisma.CheckInUncheckedCreateInput): Promise<CheckIn | null>{
 
         const check_in = await prisma.checkIn.create({data})
