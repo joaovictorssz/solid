@@ -40,7 +40,6 @@ export class InMemoryGymRepository implements GymRepositoryInterface {
                 {latitude, longitude}, 
                 {latitude: gym.latitude.toNumber(), longitude: gym.longitude.toNumber()
                 })
-            console.log(distance)
             return distance <=rate
         }) 
 
