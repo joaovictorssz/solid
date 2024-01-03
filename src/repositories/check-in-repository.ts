@@ -26,12 +26,30 @@ export class CheckInRepository implements CheckInRepositoryInterface{
             }
         })).length
     }
+
+    async findById(id: string): Promise<CheckIn | null> {
+        return null
+    }
    
     async create(data: Prisma.CheckInUncheckedCreateInput): Promise<CheckIn | null>{
 
         const check_in = await prisma.checkIn.create({data})
         return check_in
     }   
+
+    async save(checkIn: CheckIn): Promise<CheckIn > {
+        const checkInUpdated = await prisma.checkIn.update({
+            
+            data:{
+                validatedAt: checkIn.validatedAt
+            },
+            where: {
+                id: checkIn.id
+            }
+        })
+
+        return checkInUpdated
+    }
     
     
 

@@ -29,6 +29,14 @@ export class InMemoryCheckInRepository implements CheckInRepositoryInterface {
         
     }
 
+    async findById(id: string): Promise<CheckIn | null> {
+        const  checkIn = this.checkIns.find(item => item.id === id)
+        if(!checkIn){
+            return null
+        }
+        return checkIn
+    }
+
     async findManyByUserId(userId: string, page: number): Promise<CheckIn[]> {
         const checkIns = this.checkIns.filter((checkin)=>checkin.userId === userId)
 
@@ -38,9 +46,8 @@ export class InMemoryCheckInRepository implements CheckInRepositoryInterface {
     async getUserMetrics(userId: string): Promise<number> {
         return this.checkIns.filter((checkIn)=>checkIn.userId === userId).length
     }
-    async create(data: Prisma.CheckInUncheckedCreateInput) {
 
-        
+    async create(data: Prisma.CheckInUncheckedCreateInput) {
 
         const checkInAtSameDay = await this.findByUserIdOnDay(data.userId, new Date())
         
@@ -58,9 +65,20 @@ export class InMemoryCheckInRepository implements CheckInRepositoryInterface {
 
         this.checkIns.push(checkIn)
 
+        
         return checkIn
 
 
 
+    }
+
+    async save(checkIn: CheckIn): Promise<CheckIn > {
+        const checkInUpdatedIndex = this.checkIns.findIndex(check_in => check_in.id === checkIn.id)
+
+        if(checkInUpdatedIndex >= 0){
+            this.checkIns[checkInUpdatedIndex] = checkIn
+        }
+
+        return checkIn
     }
 }
