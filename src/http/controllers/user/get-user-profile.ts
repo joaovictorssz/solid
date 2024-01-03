@@ -1,25 +1,23 @@
 import { makeGetUserProfile } from "@/services/factories/user/make-get-user-profile";
 import { ResourceNotFoundError } from "@/services/errors/resource-not-found-error";
 import { FastifyReply, FastifyRequest } from "fastify";
-import { z } from "zod";
 
 export async function getUserProfileController(request: FastifyRequest, reply: FastifyReply){
     
-    const getProfileRequestSchemma = z.object({
-        id: z.string()
-    })
-
-    const {id} = getProfileRequestSchemma.parse(request.params)
+    const id = request.user.sub
 
     try{
-        const getUserProfileService = makeGetUserProfile()
-        const userProfile = await getUserProfileService.get(id)
+        const service = makeGetUserProfile()
+        const user = await service.get(id)
 
-        return userProfile
+        return reply.status(200).send(user)
     }
-    catch(error){
-        if(error instanceof ResourceNotFoundError){
-            return reply.status(404).send({message: error.message})
+    catch(err){
+        if(err instanceof ResourceNotFoundError){
+            return reply.status(401).send({message: err.message})
         }
-        return reply.status(500).send()    }
+        return reply.status(500).send()
+
+    }
+    
 }

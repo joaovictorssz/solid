@@ -3,7 +3,7 @@ import { ValidateCheckInService } from "@/services/check-in/validate/validate-ch
 
 export function makeValidateCheckInService(){
     const checkInRepository = new CheckInRepository()
-    const validateCheckInService = new ValidateCheckInService(checkInRepository)
+    const service = new ValidateCheckInService(checkInRepository)
 
-    return validateCheckInService
+    return service
 }

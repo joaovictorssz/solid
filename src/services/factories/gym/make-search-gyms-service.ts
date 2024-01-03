@@ -3,7 +3,7 @@ import { SearchGymService } from "@/services/gym/search/search-service";
 
 export function makeSearchGymsService(){
     const gymRepository = new GymRepository()
-    const searchGymService = new SearchGymService(gymRepository)
+    const service = new SearchGymService(gymRepository)
 
-    return searchGymService
+    return service
 }

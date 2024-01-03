@@ -3,7 +3,7 @@ import { FetchCheckInsHistoryService } from "@/services/check-in/fetch-history/f
 
 export function makeFetchHistoryService(){
     const checkInRepository = new CheckInRepository()
-    const fetchHistoryService = new FetchCheckInsHistoryService(checkInRepository)
+    const service = new FetchCheckInsHistoryService(checkInRepository)
 
-    return fetchHistoryService
+    return service
 }

@@ -15,9 +15,15 @@ export async function userAuthenticationController(request: FastifyRequest, repl
     try {
 
         const authenticationService = makeAuthenticationService()
-        const user = await authenticationService.authenticate({ email, password })
-
-        return reply.status(200).send(user)
+        const {id} = await authenticationService.authenticate({ email, password })
+        const token = await reply.jwtSign({},{
+            sign:{
+                sub: id
+            }
+        })
+        return reply.status(200).send({
+            token
+        })
     }
     catch (error) {
         if (error instanceof InvalidCredentialsError) {

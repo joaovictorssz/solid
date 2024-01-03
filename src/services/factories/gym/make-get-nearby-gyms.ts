@@ -3,6 +3,6 @@ import { GetNearGymsService } from "@/services/gym/get-near-gyms/get-near-gyms-s
 
 export function makeGetGymsNearbyService (){
     const gymRepository = new GymRepository()
-    const getNearbyGymsService = new GetNearGymsService(gymRepository)
-    return getNearbyGymsService
+    const service = new GetNearGymsService(gymRepository)
+    return service
 }

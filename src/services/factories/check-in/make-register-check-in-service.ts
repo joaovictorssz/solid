@@ -6,6 +6,6 @@ import { CheckInService } from "@/services/check-in/register/check-in-service"
 export function makeRegisterCheckInService(){
     const checkInRepository = new CheckInRepository()
     const gymRepository = new GymRepository()
-    const registerCheckInService = new CheckInService(checkInRepository, gymRepository)
-    return registerCheckInService
+    const service = new CheckInService(checkInRepository, gymRepository)
+    return service
 }

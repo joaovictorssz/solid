@@ -3,7 +3,7 @@ import { GetUserMetricsService } from "@/services/check-in/get-user-metrics/get-
 
 export function makeGetUserMetricsService(){
     const checkInRepository = new CheckInRepository()
-    const getUserMetricsService = new GetUserMetricsService(checkInRepository)
+    const service = new GetUserMetricsService(checkInRepository)
 
-    return getUserMetricsService
+    return service
 }
