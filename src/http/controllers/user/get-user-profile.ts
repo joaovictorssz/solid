@@ -1,4 +1,4 @@
-import { makeGetUserProfile } from "@/services/factories/make-get-user-profile";
+import { makeGetUserProfile } from "@/services/factories/user/make-get-user-profile";
 import { ResourceNotFoundError } from "@/services/errors/resource-not-found-error";
 import { FastifyReply, FastifyRequest } from "fastify";
 import { z } from "zod";
