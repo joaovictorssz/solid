@@ -13,7 +13,9 @@ interface GymRegisterRequestBody {
 interface GymRegisterReply{
     gym: Gym
 }
+
 export class RegisterGymService{
+    
     constructor(private gymRepository : GymRepository){}
 
     async create(data: GymRegisterRequestBody) : Promise<GymRegisterReply>{

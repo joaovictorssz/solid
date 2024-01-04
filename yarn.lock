@@ -3439,6 +3439,10 @@ vite@^5.0.0:
   optionalDependencies:
     fsevents "~2.3.3"
 
+"vitest-environment-prisma@file:prisma/vitest-environment-prisma":
+  version "1.0.0"
+  resolved "file:prisma/vitest-environment-prisma"
+
 vitest-tsconfig-paths@3.4.1:
   version "3.4.1"
   resolved "https://registry.npmjs.org/vitest-tsconfig-paths/-/vitest-tsconfig-paths-3.4.1.tgz"

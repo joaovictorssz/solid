@@ -5,7 +5,7 @@ import { FastifyReply, FastifyRequest } from "fastify";
 export async function getUserProfileController(request: FastifyRequest, reply: FastifyReply){
     
     const id = request.user.sub
-
+ 
     try{
         const service = makeGetUserProfile()
         const user = await service.get(id)
