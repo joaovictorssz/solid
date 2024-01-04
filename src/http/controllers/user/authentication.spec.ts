@@ -1,5 +1,7 @@
+import 'dotenv/config'
+
 import { test } from "vitest";
 
 test('test', ()=>{
-    console.log("ok")
+    console.log(process.env.DATABASE_URL)
 })
