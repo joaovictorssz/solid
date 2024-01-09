@@ -1,22 +1,23 @@
 import app from "@/app";
 
-import { afterAll, beforeAll, expect, describe, it } from "vitest";
+import { afterAll, beforeAll, expect, describe, it, vi } from "vitest";
 import request from 'supertest'
 
 
-describe('Validate CheckIn E2E', () => {
+describe('Get User Metrics E2E', () => {
 
     beforeAll(async ()=>{
         await app.ready()
 
-
+        vi.useFakeTimers()
     })
 
     afterAll(async () => {
         await app.close()
+        vi.useRealTimers()
     })
     
-    it('should  be able to  validate a checkIn', async () => {
+    it('should  be able to get user check-ins', async () => {
 
         // create user
 
@@ -45,23 +46,20 @@ describe('Validate CheckIn E2E', () => {
             longitude: -60.0660148
         })
 
-        // create checkIn
-
-        const checkInResponse = await request(app.server).post('/checkin/register').set('Authorization', `Bearer ${token}`).send({
-            gymId: gymResponse.body.gym.id,
-            userId: userResponse.body.user.id,
-            userLatitude: -3.0321069,
-            userLongitude: -60.0660148
+        // create 3 checkIn
+        for(let i = 1; i <=3; i++){
+            vi.setSystemTime(new Date(2011, 0, i, 8, 0, 0))
+            await request(app.server).post('/checkin/register').set('Authorization', `Bearer ${token}`).send({
+                gymId: gymResponse.body.gym.id,
+                userId: userResponse.body.user.id,
+                userLatitude: -3.0321069,
+                userLongitude: -60.0660148
 
         })
+        }
 
-        const response = await request(app.server).post('/checkin/validate').set('Authorization', `Bearer ${token}`).send({
-            checkInId: checkInResponse.body.id
-        })
+        const response = await request(app.server).get(`/checkin/metrics?userId=${userResponse.body.user.id}`).set('Authorization', `Bearer ${token}`).send()
 
-        expect(response.statusCode).toEqual(200)
-        expect(response.body).toEqual(expect.objectContaining({
-            id: expect.any(String)
-        }))
+        expect(response.body.checkInsCount).toBe(3)
     })
 })
