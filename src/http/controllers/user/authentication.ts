@@ -21,7 +21,19 @@ export async function userAuthenticationController(request: FastifyRequest, repl
                 sub: id
             }
         })
-        return reply.status(200).send({
+
+        const refreshToken = await reply.jwtSign({},{
+            sign:{
+                sub: id,
+                expiresIn: '7d'
+            }
+        })
+        return reply.status(200).setCookie('refreshToken', refreshToken, {
+            httpOnly: true,
+            secure: true,
+            sameSite: true,
+            path: '/'
+        }).send({
             token
         })
     }
