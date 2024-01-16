@@ -1,31 +1,29 @@
-# solid
+# GymPass-style app
 Rocketseat Ignite Course: 3rd application that uses SOLID architecture.
 
-# Requisitos funcionais
+- This is a service created for educational purposes, in which I implemented the SOLID architecture, to create a system similar to GymPass.
 
-- [x] Deve ser possível se cadastrar;
-- [x] Deve ser possível se autenticar;
-- [x] Deve ser possível obter o perfil de um usuário logado;
-- [x] Deve ser possível obter o número de check-ins realizados pelo usuário logado;
-- [x] Deve ser possível o usuário obter seu histórico de check-ins;
-- [x] Deve ser possível o usuário buscar academias próximas;
-- [x] Deve ser possível o usuário buscar academias pelo nome;
-- [x] Deve ser possível o usuário realizar check-in em uma academia;
-- [x] Deve ser possível validar o check-in de um usuário;
-- [x] Deve ser possível cadastrar uma academia;
+# Requirements
 
-# RNs (Regras de negócio)
+1. NodeJS (v16 or higher)
+2. Docker
 
-- [x] O usuário não deve poder se cadastrar com um e-mail duplicado;
-- [x] O usuário não pode fazer 2 check-ins no mesmo dia;
-- [x] O usuário não pode fazer check-in se não estiver perto (100m) da academia;
-- [x] O check-in só pode ser validado até 20 minutos após criado;
-- [ ] O check-in só pode ser validado por administradores
-- [ ] A academia só pode ser cadastrada por administradores
+# How to run
 
-# RNFs (Requisitos não-funcionais)
+1. Clone repository with `git clone https://github.com/joaovictorssz/solid`
+2. Get in the project folder with `cd solid`
+3. Set the environment variables following `.env.example`
+4. Run `npm install`
+5. Run `docker-compose up` at docker-compose file level to run the PostgreSQL database
+6. Run `npm run start:dev` to run the app in development mode
 
-- [x] A senha deve estar criptografada
-- [ ] Os dados da aplicação precisam estar persistidos num banco de dados PostgreSQL
-- [ ] Todas as listas de dados devem estar paginadas com 20 Itens por pagina
-- [ ] O usuário deve ser identificado por um JWT
+# Build and Deploy
+
+1. Run `npm run build` to build application
+2. Run `npm run start` to start the application
+
+# Testing
+
+1. Run `npm run test` to run all the unit tests
+2. Run `npm run test:e2e` to run all the end to end tests
+ 
