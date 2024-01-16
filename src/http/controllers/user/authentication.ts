@@ -16,22 +16,24 @@ export async function userAuthenticationController(request: FastifyRequest, repl
 
         const authenticationService = makeAuthenticationService()
         const user = await authenticationService.authenticate({ email, password })
-        const token = await reply.jwtSign({
+        const token = await reply.jwtSign(
+            {
             role: user.role
-        },{
+            },{
             sign:{
                 sub: user.id
             }
         })
 
-        const refreshToken = await reply.jwtSign({
+        const refreshToken = await reply.jwtSign(
+            {
             role: user.role
-        },{
+            },{
             sign:{
                 sub: user.id,
                 expiresIn: '7d'
             }
-        })
+            })
         return reply.status(200).setCookie('refreshToken', refreshToken, {
             httpOnly: true,
             secure: true,

@@ -2,6 +2,8 @@ import app from "@/app";
 
 import { afterAll, beforeAll, expect, describe, it } from "vitest";
 import request from 'supertest'
+import { prisma } from "@/lib/prisma";
+import { hash } from "bcryptjs";
 
 
 describe('Validate CheckIn E2E', () => {
@@ -20,11 +22,15 @@ describe('Validate CheckIn E2E', () => {
 
         // create user
 
-        const userResponse = await request(app.server).post('/register').send({
-            name: 'John Doe',
-            email: 'johndoe@example.com',
-            password: '123456'
+        const userResponse = await prisma.user.create({
+            data: {
+                email: 'johndoe@example.com',
+                name: 'John Doe',
+                password_hash: await hash('123456', 6),
+                role: 'ADMIN'
+            }
         })
+
 
         // authenticate
 
@@ -49,7 +55,7 @@ describe('Validate CheckIn E2E', () => {
 
         const checkInResponse = await request(app.server).post('/checkin/register').set('Authorization', `Bearer ${token}`).send({
             gymId: gymResponse.body.gym.id,
-            userId: userResponse.body.user.id,
+            userId: userResponse.id,
             userLatitude: -3.0321069,
             userLongitude: -60.0660148
 

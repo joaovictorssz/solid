@@ -2,6 +2,8 @@ import app from "@/app";
 
 import { afterAll, beforeAll, expect, describe, it } from "vitest";
 import request from 'supertest'
+import { prisma } from "@/lib/prisma";
+import { hash } from "bcryptjs";
 
 
 describe('Register Gym E2E', () => {
@@ -20,11 +22,15 @@ describe('Register Gym E2E', () => {
 
         // create user
 
-        await request(app.server).post('/register').send({
-            name: 'John Doe',
-            email: 'johndoe@example.com',
-            password: '123456'
+        await prisma.user.create({
+            data: {
+                email: 'johndoe@example.com',
+                name: 'John Doe',
+                password_hash: await hash('123456', 6),
+                role: 'ADMIN'
+            }
         })
+
 
         // authenticate
 

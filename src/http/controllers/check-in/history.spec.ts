@@ -2,6 +2,8 @@ import app from "@/app";
 
 import { afterAll, beforeAll, expect, describe, it, vi } from "vitest";
 import request from 'supertest'
+import { prisma } from "@/lib/prisma";
+import { hash } from "bcryptjs";
 
 
 describe('Fetch User History E2E', () => {
@@ -21,11 +23,15 @@ describe('Fetch User History E2E', () => {
 
         // create user
 
-        const userResponse = await request(app.server).post('/register').send({
-            name: 'John Doe',
-            email: 'johndoe@example.com',
-            password: '123456'
+        const userResponse = await prisma.user.create({
+            data: {
+                email: 'johndoe@example.com',
+                name: 'John Doe',
+                password_hash: await hash('123456', 6),
+                role: 'ADMIN'
+            }
         })
+
 
         // authenticate
 
@@ -51,14 +57,14 @@ describe('Fetch User History E2E', () => {
             vi.setSystemTime(new Date(2011, 0, i, 8, 0, 0))
             await request(app.server).post('/checkin/register').set('Authorization', `Bearer ${token}`).send({
                 gymId: gymResponse.body.gym.id,
-                userId: userResponse.body.user.id,
+                userId: userResponse.id,
                 userLatitude: -3.0321069,
                 userLongitude: -60.0660148
 
         })
         }
 
-        const response = await request(app.server).get(`/checkin/history?userId=${userResponse.body.user.id}&page=1`).set('Authorization', `Bearer ${token}`).send()
+        const response = await request(app.server).get(`/checkin/history?userId=${userResponse.id}&page=1`).set('Authorization', `Bearer ${token}`).send()
 
         expect(response.statusCode).toEqual(200)
         expect(response.body.checkIns).toHaveLength(3)
